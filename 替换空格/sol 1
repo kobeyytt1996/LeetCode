@@ -1,0 +1,33 @@
+class Solution {
+public:
+    string replaceSpace(string s) {
+        if (s.size() == 0)
+            return s;
+        int originalLength = s.size();
+        int numberofBlank = 0;
+        for (int i = 0; i != originalLength; ++i)
+            if (s[i] == ' ')
+            {
+                ++numberofBlank;
+                s += "00";
+            }
+        int newLength = originalLength + 2 * numberofBlank;
+        int indexofOriginal = originalLength - 1;
+        int indexofNew = newLength - 1;
+        while (indexofNew >= 0 && indexofNew != indexofOriginal)
+        {
+            if (s[indexofOriginal] != ' ')
+            {
+                s[indexofNew--] = s[indexofOriginal];
+            }
+            else
+            {
+                s[indexofNew--] = '0';
+                s[indexofNew--] = '2';
+                s[indexofNew--] = '%';
+            }
+            --indexofOriginal;
+        }
+        return s;
+    }
+};
