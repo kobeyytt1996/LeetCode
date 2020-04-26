@@ -1,0 +1,28 @@
+BinaryTreeNode* GetNext(BinaryTreeNode* pNode)
+{
+	BinaryTreeNode* pNext = nullptr;
+	if (pNode == nullptr)
+		return pNext;
+	if (pNode->Right != nullptr)
+	{
+		pNext = pNode->Right;
+		while (pNext->Left != nullptr)
+			pNext = pNext->Left;
+	}
+	else if (pNode->Parent != nullptr)
+	{
+		BinaryTreeNode* pParent = pNode->Parent;
+		if (pNode == pParent->Left)
+			pNext = pParent;
+		else
+		{
+			while (pParent->Parent != nullptr && pParent != (pParent->Parent)->Left)
+			{
+				pParent = pParent->Parent;
+			}
+			if (pParent->Parent != nullptr)
+				pNext = pParent->Parent;
+		}
+	}
+	return pNext;
+}
