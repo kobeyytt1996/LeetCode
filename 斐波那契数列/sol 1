@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int fib(int n) {
+        int result = 0;    
+        if (n < 0)
+        {
+            cerr << "Wrong input" << endl;
+            return -1;
+        }
+        if (n == 0 | n == 1)
+        {
+            if (n == 1)
+                result = 1;
+            return result;
+        }
+
+        result = fib(n - 1) + fib(n - 2);
+        return result;
+
+
+    }
+};
