@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int numWays(int n, int pre = 1, int curr = 1) {
+        if (n < 0)
+            return -1;
+        if (n == 0)
+            return pre;
+        if (n == 1)
+            return curr;
+        int prePre = pre;
+        pre = curr;
+        curr = (pre + prePre) % 1000000007;
+        return numWays(n-1, pre, curr);
+    }
+};
