@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int numWays(int n) {
+        if (n < 0)
+            return -1;
+        if (n == 0)
+            return 1;
+        if (n == 1)
+            return 1;
+        int curr = 0;
+        int oneMinusCurr = 1, twoMinusCurr = 1;
+        for (unsigned int i = 2; i <= n; ++i)
+        {
+            curr = (oneMinusCurr + twoMinusCurr) % 1000000007;
+            twoMinusCurr = oneMinusCurr;
+            oneMinusCurr = curr;
+        }
+
+        return curr;
+
+    }
+};
