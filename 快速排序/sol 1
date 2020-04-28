@@ -1,0 +1,68 @@
+#include <iostream>
+#include <random>
+#include <ctime>
+#include <exception>
+using std::cout;
+using std::endl;
+
+int RandomInRange(int start, int end)
+{
+	std::uniform_int_distribution<unsigned> u(start, end);
+	std::default_random_engine e(std::time(0));
+	return u(e);
+}
+
+void Swap(int* a, int* b)
+{
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+int Partition(int data[], int length, int start, int end)
+{
+	if (data == nullptr || length <= 0 || start < 0 || end < start || end >= length)
+		throw new std::exception("Wrong parameter");
+	int index = RandomInRange(start, end);
+	Swap(&data[end], &data[index]);
+
+	int smallLast = start - 1;
+	for (index = start; index != end; ++index)
+	{
+		if (data[index] < data[end])
+		{
+			++smallLast;
+			if (smallLast != index)
+				Swap(&data[smallLast], &data[index]);
+		}
+	}
+
+	++smallLast;
+	Swap(&data[smallLast], &data[end]);
+
+	return smallLast;
+}
+
+void QuickSort(int data[], int length, int start, int end)
+{
+	if (start == end)
+		return;
+	int index = Partition(data, length, start, end);
+	if (index < end)
+		QuickSort(data, length, index + 1, end);
+	if (start < index)
+		QuickSort(data, length, start, index - 1);
+}
+
+int main() {
+	int data[] = { 6, 3, 2, 2, 5, 1, 9, 7 };
+	for (auto a : data)
+		cout << a << std::ends;
+	cout << endl;
+	QuickSort(data, 8, 0, 7);
+	for (auto a : data)
+		cout << a << std::ends;
+	cout << endl;
+	
+	return 0;
+}
