@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int rows, cols;
+    int changeRow[4] = {1, -1, 0, 0};
+    int changeCol[4] = {0, 0, 1, -1};
+    bool exist(vector<vector<char>>& board, string word) {
+        if (board.size() <= 0 || board[0].size() <= 0 || word.size() <= 0)
+            return false;
+        rows = board.size();
+        cols = board[0].size();
+        for (int row = 0; row < rows; ++row)
+        {
+            for (int col = 0; col < cols; ++col)
+            {
+                if (board[row][col] == word[0])
+                    if (hasPath(board, word, row, col, 1))
+                        return true;
+            }
+        }
+        return false;
+    }
+
+    bool hasPath(vector<vector<char>>& board, string word, int row, int col, int pathLength)
+    {
+        if (pathLength == word.size())
+            return true;
+        char temp = board[row][col];
+        board[row][col] = '.';
+        for (int i = 0; i < 4; ++i)
+        {
+            int nextRow = row + changeRow[i];
+            int nextCol = col + changeCol[i];
+            if (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols 
+                && board[nextRow][nextCol] == word[pathLength])
+                if (hasPath(board, word, nextRow, nextCol, pathLength + 1))
+                    return true;
+        }
+        board[row][col] = temp;
+        return false;
+    }
+};
