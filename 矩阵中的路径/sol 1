@@ -1,0 +1,53 @@
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        if (board.size() == 0 || board[0].size() == 0 || word.size() == 0)
+            return false;
+        const int rows = board.size();
+        const int cols = board[0].size();
+        int pathLength = 0;
+        bool* visited = new bool[rows * cols];
+        memset(visited, 0, rows * cols);
+
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; ++j)
+            {
+                if (hasPathCore(board, rows, cols, i, j, pathLength, visited, word))
+                    return true;
+            }
+        }
+        delete[] visited;
+        return false;
+    }
+
+    bool hasPathCore(vector<vector<char>>& board, int rows, int cols, int row, int col, 
+                    int& pathLength, bool* visited, string word)
+    {
+        if (pathLength == word.size())
+            return true;
+        bool hasPath = false;
+        if (row >= 0 && row < rows && col >= 0 && col < cols
+            && board[row][col] == word[pathLength] && visited[row * cols + col] == false)
+        {
+            ++pathLength;
+            visited[row * cols + col] = true;
+
+            hasPath = hasPathCore(board, rows, cols, row - 1, col, 
+                                pathLength, visited, word)
+                      || hasPathCore(board, rows, cols, row + 1, col, 
+                                pathLength, visited, word)
+                      || hasPathCore(board, rows, cols, row, col - 1, 
+                                pathLength, visited, word)
+                      || hasPathCore(board, rows, cols, row, col + 1, 
+                                pathLength, visited, word);
+            if (!hasPath)
+            {
+                --pathLength;
+                visited[row * cols + col] = false;
+            }
+
+        }
+        return hasPath;
+    }
+};
