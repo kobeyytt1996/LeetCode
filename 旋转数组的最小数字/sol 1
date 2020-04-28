@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int minArray(vector<int>& numbers) {
+        if (numbers.empty())
+        {
+           cerr << "Empty Parameter." << endl;
+           return -1;
+        }
+        int first = numbers[0];
+        int minNumber = 0;
+        for (int i = 1; i < numbers.size(); ++i)
+        {
+            if (numbers[i] < first)
+            {
+                minNumber = numbers[i];
+                return minNumber;
+            }
+        }
+        return first;
+    }
+};
