@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool g_InvalidInput = false;
+    double myPow(double x, int n) {
+        if (x == 0.0 && n < 0)
+        {
+            g_InvalidInput = true;
+            return 0.0;
+        }
+
+        unsigned long abs_n = (unsigned long)(n);
+        if (n < 0)
+        {
+            long N = n;
+            abs_n = (unsigned long)(-N);
+        }
+        double result = PowerWithUnsignedExponent(x, abs_n);
+        if (n < 0)
+            result = 1.0 / result;
+        
+        return result;
+    }
+
+    double PowerWithUnsignedExponent(double x, unsigned long n)
+    {
+        if (n == 0)
+            return 1.0;
+        if (n == 1)
+            return x;
+        double result = PowerWithUnsignedExponent(x, n >> 1);
+        result *= result;
+        if (n & 0x1)
+            result *= x;
+        return result;
+    }
+};
