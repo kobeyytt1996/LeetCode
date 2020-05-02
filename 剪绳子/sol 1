@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int cuttingRope(int n) {
+        if (n <= 1)
+            return 0;
+        int recordLargest[n + 1];
+        recordLargest[0] = 0;
+        recordLargest[1] = 1;
+        for (int length = 2; length <= n; ++length)
+        {
+            int largest = 0;
+            for (int subRope = 1; subRope < length; ++subRope)
+            {
+                int firstLonger=subRope > recordLargest[subRope] 
+                            ? subRope : recordLargest[subRope];
+                int secondLonger=(length - subRope > recordLargest[length - subRope]) 
+                            ? (length - subRope) : recordLargest[length - subRope];
+                int multiply = firstLonger * secondLonger;
+                if (multiply > largest)
+                    largest = multiply;
+            }
+            recordLargest[length] = largest;
+        }
+        return recordLargest[n];
+    }
+};
