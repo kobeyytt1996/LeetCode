@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int movingCount(int m, int n, int k) {
+        if (k < 0 || m <= 0 || n <= 0)
+            return 0;
+        vector<vector<int>> visited(m, vector<int>(n, 0));
+        queue<pair<int, int>> q;
+        int number = 0;
+        q.push({0, 0});
+        ++number;
+        visited[0][0] = 1;
+        while (!q.empty())
+        {
+            auto front = q.front();
+            q.pop();
+            for (auto a : directions)
+            {
+                int new_x = front.first + a.first;
+                int new_y = front.second + a.second;
+                if (new_x < m && new_y < n && visited[new_x][new_y] != 1
+                    && digitSum(new_x, new_y) <= k)
+                {
+                    q.push({new_x, new_y});
+                    ++number;
+                    visited[new_x][new_y] = 1;
+                }
+            }
+        }
+        return number;
+    }
+    int digitSum(int row, int col)
+    {
+        int count = 0;
+        while (row)
+        {
+            count += row % 10;
+            row /= 10;
+        }
+        while (col)
+        {
+            count += col % 10;
+            col /= 10;
+        }
+        return count;
+    }
+private:
+    vector<pair<int, int>> directions = {{1, 0}, {0, 1}};
+};
