@@ -18,7 +18,6 @@ public:
                 return isMatchCore(sIter, pIter + 2, sEnd, pEnd);
             else
                 return isMatchCore(sIter + 1, pIter, sEnd, pEnd)
-                        || isMatchCore(sIter + 1, pIter + 2, sEnd, pEnd)
                         || isMatchCore(sIter, pIter + 2, sEnd, pEnd);
         }
         if (sIter == sEnd)
