@@ -1,0 +1,41 @@
+class Solution {
+public:
+	bool isNumber(string s) {
+		if (s.empty())
+			return false;
+		int index = 0;
+		int length = s.size();
+
+        while (s[index] == ' ')
+            ++index;
+		bool isNum = scanInteger(s, index);
+		if (index != length && s[index] == '.')
+		{
+			++index;
+			isNum = scanUnsignedInteger(s, index) || isNum;
+		}
+		if (index != length && (s[index] == 'e' || s[index] == 'E'))
+		{
+			++index;
+			isNum = isNum && scanInteger(s, index);
+		}
+        while (index != length && s[index] == ' ')
+            ++index;
+		return isNum && (index == length);
+	}
+
+	bool scanUnsignedInteger(const string &s, int &index)
+	{
+		int original = index;
+		while (index != s.size() && s[index] >= '0' && s[index] <= '9')
+			++index;
+		return (index > original);
+	}
+
+	bool scanInteger(const string &s, int &index)
+	{
+		if (s[index] == '+' || s[index] == '-')
+			++index;
+		return scanUnsignedInteger(s, index);
+	}
+};
