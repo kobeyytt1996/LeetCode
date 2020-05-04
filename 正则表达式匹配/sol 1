@@ -1,0 +1,31 @@
+class Solution {
+public:
+    typedef string::const_iterator str_cit;
+    bool isMatch(string s, string p) {
+        return isMatchCore(s.cbegin(), p.cbegin(), s.cend(), p.cend());
+    }
+
+    bool isMatchCore(str_cit sIter, str_cit pIter, str_cit sEnd, str_cit pEnd)
+    {
+        if (sIter == sEnd && pIter == pEnd)
+            return true;
+        if (sIter != sEnd && pIter == pEnd)
+            return false;
+        
+        if ((pIter + 1) != pEnd && *(pIter + 1) == '*')
+        {
+            if (sIter == sEnd || (*pIter != *sIter && *pIter != '.'))
+                return isMatchCore(sIter, pIter + 2, sEnd, pEnd);
+            else
+                return isMatchCore(sIter + 1, pIter, sEnd, pEnd)
+                        || isMatchCore(sIter + 1, pIter + 2, sEnd, pEnd)
+                        || isMatchCore(sIter, pIter + 2, sEnd, pEnd);
+        }
+        if (sIter == sEnd)
+            return false;
+        if (*sIter == *pIter || *pIter == '.')
+            return isMatchCore(sIter + 1, pIter + 1, sEnd, pEnd);
+        else
+            return false;
+    }
+};
