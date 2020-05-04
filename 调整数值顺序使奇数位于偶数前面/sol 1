@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> exchange(vector<int>& nums) {
+        if (nums.size() <= 1)
+            return nums;
+        int index = 0;
+        int lastOdd = -1;
+        while (index != nums.size())
+        {
+            if (nums[index] & 0x1)
+            {
+                ++lastOdd;
+                if (lastOdd != index)
+                {
+                    int temp = nums[index];
+                    nums[index] = nums[lastOdd];
+                    nums[lastOdd] = temp;
+                }
+            }
+            ++index;
+        }
+
+        return nums;
+    }
+};
