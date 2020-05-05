@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* mirrorTree(TreeNode* root) {
+        if (root == nullptr)
+            return nullptr;
+        if (root->left == nullptr && root->right == nullptr)
+            return root;
+        queue<TreeNode*> qTreeNode;
+        qTreeNode.push(root);
+        while (!qTreeNode.empty())
+        {
+            TreeNode *now = qTreeNode.front();
+            qTreeNode.pop();
+            if (now->left)
+                qTreeNode.push(now->left);
+            if (now->right)
+                qTreeNode.push(now->right);
+            TreeNode *temp = now->left;
+            now->left = now->right;
+            now->right = temp;
+        }
+
+        return root;
+    }
+};
