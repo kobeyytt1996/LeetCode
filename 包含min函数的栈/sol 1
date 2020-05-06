@@ -31,7 +31,6 @@ public:
         return minValue.top();
     }
 
-    int minInStack;
     size_t stackSize;
     stack<int> numberStack;
     stack<int> minValue;
