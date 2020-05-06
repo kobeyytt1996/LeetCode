@@ -1,0 +1,38 @@
+class Solution {
+public:
+	vector<int> spiralOrder(vector<vector<int>>& matrix) {
+		vector<int> result;
+		if (matrix.size() == 0 || matrix[0].size() == 0)
+			return result;
+
+		int x[4] = { 0, 1, 0, -1 };
+		int y[4] = { 1, 0, -1, 0 };
+		int row = 0, col = 0;
+		int rows = matrix.size();
+		int cols = matrix[0].size();
+		vector<vector<int>> visited(rows, vector<int>(cols, 0));
+
+		result.push_back(matrix[row][col]);
+		visited[row][col] = 1;
+
+		while (result.size() < (rows * cols))
+		{
+			for (int i = 0; i != 4; ++i)
+			{
+				int newRow = row + x[i];
+				int newCol = col + y[i];
+				if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols
+					&& visited[newRow][newCol] == 0)
+				{
+					result.push_back(matrix[newRow][newCol]);
+					visited[newRow][newCol] = 1;
+					row = newRow;
+					col = newCol;
+					break;
+				}
+			}
+		}
+
+		return result;
+	}
+};
