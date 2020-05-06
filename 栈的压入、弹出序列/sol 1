@@ -8,17 +8,16 @@ public:
         
         int indexOfPush = 0, indexOfPop = 0;
         stack<int> helpStack;
-        helpStack.push(pushed[indexOfPush]);
 
-        while (indexOfPush < pushed.size() && indexOfPop < popped.size())
+        while (indexOfPop < popped.size())
         {
             if (helpStack.empty())
-                helpStack.push(pushed[++indexOfPush]);
+                helpStack.push(pushed[indexOfPush++]);
             while (popped[indexOfPop] != helpStack.top())
             {
-                if (++indexOfPush >= pushed.size())
+                if (indexOfPush >= pushed.size())
                     return false;
-                helpStack.push(pushed[indexOfPush]);
+                helpStack.push(pushed[indexOfPush++]);
             }
             ++indexOfPop;
             helpStack.pop();
