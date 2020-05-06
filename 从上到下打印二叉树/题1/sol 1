@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> levelOrder(TreeNode* root) {
+        vector<int> result;
+        if (root == nullptr)
+            return result;
+        
+        queue<TreeNode*> bfs;
+        bfs.push(root);
+        while (!bfs.empty())
+        {
+            TreeNode *pNode = bfs.front();
+            bfs.pop();
+            result.push_back(pNode->val);
+            if (pNode->left != nullptr)
+                bfs.push(pNode->left);
+            if (pNode->right != nullptr)
+                bfs.push(pNode->right);
+        }
+
+        return result;
+    }
+};
