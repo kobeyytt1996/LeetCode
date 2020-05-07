@@ -1,0 +1,61 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+        left = NULL;
+        right = NULL;
+    }
+
+    Node(int _val, Node* _left, Node* _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+class Solution {
+public:
+    Node* treeToDoublyList(Node* root) {
+        if (root == nullptr)
+            return nullptr;
+        stack<Node*> sData;
+        while (root != nullptr)
+        {
+            sData.push(root);
+            root = root->left;
+        }
+        Node* listHead = sData.top();
+        Node* listTail = nullptr;
+
+        while (!sData.empty())
+        {
+            Node* pNode = sData.top();
+            listTail = pNode;
+            sData.pop();
+            Node* newNode = pNode->right;
+            while (newNode != nullptr)
+            {
+                sData.push(newNode);
+                newNode = newNode->left;
+            }
+            if (!sData.empty())
+            {
+                Node* pNodeNext = sData.top();
+                pNode->right = pNodeNext;
+                pNodeNext->left = pNode;
+            }
+        }
+
+        listHead->left = listTail;
+        listTail->right = listHead;
+        return listHead;
+    }
+};
