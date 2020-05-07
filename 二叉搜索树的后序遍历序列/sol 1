@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool verifyPostorder(vector<int>& postorder) {
+        if (postorder.empty())
+            return true;
+        int rankOfRoot = postorder.size() - 1;
+        return IsPostorderRecursive(postorder, 0, rankOfRoot);
+    }
+
+    bool IsPostorderRecursive(vector<int>& postorder, int start, int rankOfRoot)
+    {
+        if (start == rankOfRoot || start == rankOfRoot - 1)
+            return true;
+        
+        int root = postorder[rankOfRoot];
+        int i = start;
+        for (; i != rankOfRoot; ++i)
+        {
+            if (postorder[i] > root)
+                break;
+        }
+
+        int j = i + 1;
+        for (; j < rankOfRoot; ++j)
+        {
+            if (postorder[j] < root)
+                return false;
+        }
+
+        bool left = true;
+        if (i - 2 > start)
+            left = IsPostorderRecursive(postorder, start, i - 1);
+        bool right = true;
+        if (rankOfRoot - 2 > i)
+            right = IsPostorderRecursive(postorder, i, rankOfRoot - 1);
+        return (left && right);
+    }
+};
