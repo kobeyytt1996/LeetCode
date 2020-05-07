@@ -43,8 +43,6 @@ public:
             Node *copiedNode = head->next;
             if (head->random)
                 copiedNode->random = head->random->next;
-            else
-                copiedNode->random = nullptr;
             head = copiedNode->next;
         }
         return;
@@ -54,7 +52,7 @@ public:
     {
         Node* copiedHead = head->next;
         Node* copiedNode = copiedHead;
-        while (head != nullptr)
+        while (true)
         {
             head->next = copiedNode->next;
             if (head->next == nullptr)
