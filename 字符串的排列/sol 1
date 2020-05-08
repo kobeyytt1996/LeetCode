@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<string> permutation(string s) {
+        vector<string> result;
+        if (s.empty())
+            return result;
+        PermutationForOne(s, result, 0);
+        return result;
+    }
+
+    void PermutationForOne(string& s, vector<string>& result, int index)
+    {
+        if (index == s.size() - 1)
+        {
+            result.push_back(s);
+            return;
+        }
+        
+
+        for (int i = index; i != s.size(); ++i)
+        {
+            string subString = s.substr(index);
+            if (i == index || subString.find_first_of(s[i]) == i - index)
+            {
+                char temp = s[index];
+                s[index] = s[i];
+                s[i] = temp;
+
+                PermutationForOne(s, result, index + 1);
+
+                temp = s[index];
+                s[index] = s[i];
+                s[i] = temp;
+            }
+        }
+    }
+};
