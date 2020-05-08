@@ -1,0 +1,76 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        if (root == nullptr)
+            return "";
+        ostringstream result;
+        serializeRecursive(root, result);
+        return result.str();
+    }
+
+    void serializeRecursive(TreeNode* pNode, ostringstream& ostr)
+    {
+        if (pNode == nullptr)
+        {
+            ostr << "null,";
+            return;
+        }
+        ostr << pNode->val << ',';
+        serializeRecursive(pNode->left, ostr);
+        serializeRecursive(pNode->right, ostr);
+        return;
+    }
+
+    bool ReadStream(istringstream& istr, TreeNode** number)
+    {
+        string s;
+        if (getline(istr, s, ','))
+        {
+            if (s == "null")
+                *number = nullptr;
+            else
+                *number = new TreeNode(stoi(s));
+            return true;
+        }
+        return false;
+    }
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        if (data == "")
+            return nullptr;
+        istringstream istr(data);
+        TreeNode *root;
+        deserializeRecursive(&root, istr);
+        return root;
+    }
+    void deserializeRecursive(TreeNode** pNode, istringstream& istr)
+    {
+        TreeNode **number = new TreeNode*;
+        if (ReadStream(istr, number))
+        {
+            *pNode = *number;
+        }
+
+        if (*pNode != nullptr)
+        {
+            deserializeRecursive(&((*pNode)->left), istr);
+            deserializeRecursive(&((*pNode)->right), istr);
+        }
+        return;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
