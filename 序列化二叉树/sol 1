@@ -1,0 +1,101 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        if (root == nullptr)
+            return "";
+        queue<TreeNode*> bfs;
+        bfs.push(root);
+        ostringstream result;
+        int currNum = 1;
+
+        while (!bfs.empty())
+        {
+            TreeNode *pNode = bfs.front();
+            bfs.pop();
+            if (pNode == nullptr)
+            {
+                if (currNum != 0)
+                    result << "null,";
+            }
+            else
+            {
+                result << pNode->val << ',';
+                --currNum;
+                bfs.push(pNode->left);
+                if (pNode->left)
+                    ++currNum;
+                bfs.push(pNode->right);
+                if (pNode->right)
+                    ++currNum;
+            } 
+        }
+
+        return result.str();
+    }
+    bool ReadStream(istringstream& istr, TreeNode** number)
+    {
+        string s;
+        if (getline(istr, s, ','))
+        {
+            if (s == "null")
+                *number = nullptr;
+            else
+                *number = new TreeNode(stoi(s));
+            return true;
+        }
+        return false;
+    }
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        if (data == "")
+            return nullptr;
+        istringstream istr(data);
+        TreeNode **number = new TreeNode*;
+        TreeNode *root = new TreeNode;
+        queue<TreeNode*> bfs;
+
+        if (ReadStream(istr, number))
+        {
+            root = *number;
+            bfs.push(root);
+        }
+        else return nullptr;
+
+        while (!bfs.empty())
+        {
+            TreeNode *pNode = bfs.front();
+            bfs.pop();
+            if (pNode != nullptr)
+            {
+                if (ReadStream(istr, number))
+                {
+                    pNode->left = *number;
+                    bfs.push(pNode->left);
+                }
+                else break;
+                if (ReadStream(istr, number))
+                {
+                    pNode->right = *number;
+                    bfs.push(pNode->right);
+                }
+                else break;
+            }
+        }
+        return root;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
