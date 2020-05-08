@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<string>res;
+    vector<string> permutation(string s) {
+        int cursor=0;
+        permutation(s,cursor);
+        return res;
+    }
+    void permutation(string &s,int cursor){
+        if(cursor==s.size()-1){
+            res.push_back(s);
+        }
+        else{
+            for(int i=cursor;i<s.size();i++){
+                if(judge(s,cursor,i))continue;  //从cursor开始，遍历不重复的字符
+                swap(s[cursor],s[i]);
+                permutation(s,cursor+1);
+                swap(s[cursor],s[i]);
+            }
+        }
+    }
+    bool judge(string& s, int start, int end) {
+        for (int i = start; i < end; ++i) {
+            if (s[i] == s[end]) return true;
+        }
+        return false;
+    }
+};
+
