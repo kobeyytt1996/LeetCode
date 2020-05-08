@@ -15,11 +15,10 @@ public:
             result.push_back(s);
             return;
         }
-        
+        string subString = s.substr(index);
 
         for (int i = index; i != s.size(); ++i)
         {
-            string subString = s.substr(index);
             if (i == index || subString.find_first_of(s[i]) == i - index)
             {
                 char temp = s[index];
