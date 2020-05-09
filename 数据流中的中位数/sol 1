@@ -1,0 +1,48 @@
+class MedianFinder {
+public:
+    /** initialize your data structure here. */
+    vector<int> sortedData;
+    MedianFinder() {
+
+    }
+    
+    void addNum(int num) {
+        sortedData.push_back(num);
+        int index = sortedData.size() - 1;
+        for (int i = index - 1; i >= 0; --i)
+        {
+            if (sortedData[i] > num)
+            {
+                int temp = sortedData[i];
+                sortedData[i] = sortedData[index];
+                sortedData[index] = temp;
+                index = i;
+            }
+            else 
+                break;
+        }
+    }
+    
+    double findMedian() {
+        assert(sortedData.size() > 0);
+        double result = 0.0;
+        if (sortedData.size() & 0x1 == 1)
+        {
+            int result = sortedData[(sortedData.size() >> 1)];
+            return static_cast<double>(result);
+        }
+        else
+        {
+            double median1 = sortedData[(sortedData.size() >> 1) - 1];
+            double median2 = sortedData[(sortedData.size() >> 1)];
+            return (median1 + median2) / 2;
+        }
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
