@@ -1,0 +1,59 @@
+class MedianFinder {
+public:
+    /** initialize your data structure here. */
+    MedianFinder() {
+
+    }
+    
+    void addNum(int num) {
+        if (((min.size() + max.size()) & 0x1) == 0)
+        {
+            if (max.size() > 0 && num < max[0])
+            {
+                max.push_back(num);
+                push_heap(max.begin(), max.end(), less<int>());
+                num = max[0];
+                pop_heap(max.begin(), max.end(), less<int>());
+                max.pop_back();
+            }
+            min.push_back(num);
+            push_heap(min.begin(), min.end(), greater<int>());
+        }
+        else
+        {
+            if (num > min[0])
+            {
+                min.push_back(num);
+                push_heap(min.begin(), min.end(), greater<int>());
+                num = min[0];
+                pop_heap(min.begin(), min.end(), greater<int>());
+                min.pop_back();
+            }
+            max.push_back(num);
+            push_heap(max.begin(), max.end(), less<int>());
+        }
+    }
+    
+    double findMedian() {
+        int size = min.size() + max.size();
+        assert(size > 0);
+        if (size & 0x1 == 1)
+            return static_cast<double>(min[0]);
+        else
+        {
+            double minTop = min[0];
+            double maxTop = max[0];
+            return (minTop + maxTop) / 2;
+        }
+    }
+private:
+    vector<int> min;
+    vector<int> max;
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
