@@ -1,0 +1,61 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int start = 0;
+        int end = nums.size() - 1;
+        int middle = start + ((end - start) >> 1);
+        int sortedIndex = Partition(nums, start, end);
+
+        while (sortedIndex != middle)
+        {
+            if (sortedIndex > middle)
+            {
+                sortedIndex = Partition(nums, start, sortedIndex - 1);
+            }
+            else
+            {
+                sortedIndex = Partition(nums, sortedIndex + 1, end);
+            }
+        }
+        return nums[middle];
+    }
+
+    void Swap(int* a, int* b)
+    {
+        int temp = *a;
+        *a = *b;
+        *b = temp;
+    }
+
+    int Partition(vector<int>& nums, int start, int end)
+    {
+        if (start == end)
+            return start;
+        int index = RandomInRange(start, end);
+        Swap(&nums[index], &nums[end]);
+        int traverse = start;
+        int lastSmall = start - 1;
+
+        while (traverse != end)
+        {
+            if (nums[traverse] < nums[end])
+            {
+                ++lastSmall;
+                if (lastSmall != traverse)
+                    Swap(&nums[lastSmall], &nums[traverse]);
+            }
+            ++traverse;
+        }
+
+        ++lastSmall;
+        Swap(&nums[lastSmall], &nums[end]);
+        return lastSmall;
+    }
+
+    int RandomInRange(int start, int end)
+    {
+        uniform_int_distribution<unsigned> u(start, end);
+        default_random_engine e;
+        return u(e);
+    }
+};
