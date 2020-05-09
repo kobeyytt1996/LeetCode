@@ -1,0 +1,62 @@
+class Solution {
+public:
+    vector<int> getLeastNumbers(vector<int>& arr, int k) {
+        if (arr.empty() || k > arr.size() || k <= 0)
+            return vector<int>();
+        int start = 0;
+        int end = arr.size() - 1;
+        int index = Partition(arr, start, end);
+
+        while (index != k - 1)
+        {
+            if (index > k -1)
+            {
+                end = index - 1;
+               index = Partition(arr, start, end);
+            }
+            else
+            {
+                start = index + 1;
+                index = Partition(arr, start, end);
+            }
+        }
+
+        vector<int> result(k, 0);
+        for (int i = 0; i < k; ++i)
+            result[i] = arr[i];
+        return result;
+    }
+
+    int Partition(vector<int>& arr, int start, int end)
+    {
+        int index = RandomInRange(start, end);
+        Swap(&arr[index], &arr[end]);
+        int lastSmall = start - 1;
+        for (int index = start; index != end; ++index)
+        {
+            if (arr[index] < arr[end])
+            {
+                ++lastSmall;
+                if (lastSmall != index)
+                    Swap(&arr[index], &arr[lastSmall]);
+            }
+        }
+        ++lastSmall;
+        Swap(&arr[lastSmall], &arr[end]);
+        return lastSmall;
+    }
+
+    void Swap(int* a, int* b)
+    {
+        int temp = *a;
+        *a = *b;
+        *b = temp;
+    }
+
+    int RandomInRange(int start, int end)
+    {
+        uniform_int_distribution<unsigned> u(start, end);
+        default_random_engine e;
+        return u(e);
+    }
+};
