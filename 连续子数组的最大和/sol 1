@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool g_bInvaliInput = false;
+    int maxSubArray(vector<int>& nums) {
+        if (nums.empty())
+        {
+            g_bInvaliInput = true;
+            return 0;
+        }
+        int result = nums[0];
+        int subSum = 0;
+        for (int i = 0; i != nums.size(); ++i)
+        {
+            subSum += nums[i];
+            if (subSum > result)
+                result = subSum;
+            if (subSum < 0)
+                subSum = 0;
+        }
+
+
+        return result;
+    }
+};
