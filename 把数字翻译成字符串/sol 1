@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int translateNum(int num) {
+        if (num < 0)
+            return -1;
+
+        string sNum = to_string(num);
+        int count = 0;
+        translateRecursive(sNum, 0, count);
+        return count;
+    }
+
+    void translateRecursive(const string& sNum, int index, int& count)
+    {
+        if (index == sNum.size() - 1 || index == sNum.size())
+        {
+            ++count;
+            return;
+        }
+        translateRecursive(sNum, index + 1, count);
+        if (sNum[index] =='1' || (sNum[index] == '2' && sNum[index + 1] <= '5'))
+            translateRecursive(sNum, index + 2, count);
+            
+        return;
+
+    }
+};
