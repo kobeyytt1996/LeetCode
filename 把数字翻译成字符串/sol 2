@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int translateNum(int num) {
+        if (num < 0)
+            return -1;
+
+        string sNum = to_string(num);
+        int curr = 1;
+        int oneBefore = 1;
+        int twoBefore = 1;
+        for (int i = 2; i <= sNum.size(); ++i)
+        {
+            curr = oneBefore;
+            if (sNum[i - 2] == '1' || (sNum[i - 2] == '2' && sNum[i - 1] <='5'))
+                curr += twoBefore;
+            twoBefore = oneBefore;
+            oneBefore = curr;
+        }
+
+        return curr;
+    }
+};
