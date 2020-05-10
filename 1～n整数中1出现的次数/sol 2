@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int countDigitOne(int n) {
+        if (n <= 0)
+            return 0;
+        int result = 0;
+        int i = 1;
+        while (true)
+        {
+            int high = n / i / 10;
+            int low = n - (n / i) * i;
+            int curr = n / i - high * 10;
+            if (curr == 1)
+            {
+                result += low + 1;
+                result += high * i;
+            }
+            else if (curr == 0)
+            {
+                result += high * i;
+            }
+            else 
+            {
+                result += (high + 1) * i;
+            }
+            if (high == 0)
+                break;
+            i *= 10;
+        }
+        return result;
+    }
+};
