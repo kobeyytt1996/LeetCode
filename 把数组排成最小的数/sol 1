@@ -1,0 +1,17 @@
+class Solution {
+public:
+    string minNumber(vector<int>& nums) {
+        if (nums.empty())
+            return "";
+        vector<string> stringNums;
+        for (auto a : nums)
+            stringNums.push_back(to_string(a));
+        auto compare = [](const string& a, const string& b){return a + b < b + a;};
+        sort(stringNums.begin(), stringNums.end(), compare);
+
+        string result;
+        for (auto a : stringNums)
+            result += a;
+        return result;
+    }
+};
