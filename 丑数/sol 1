@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+        if (n < 0)
+            return 0;
+        
+        vector<int> uglyNumber(n, 1);
+        int nextUglyIndex = 1;
+
+        int pMultiply2 = 0;
+        int pMultiply3 = 0;
+        int pMultiply5 = 0;
+        while (nextUglyIndex < n)
+        {
+            int nextUgly = MinOf3(2 * uglyNumber[pMultiply2], 3 * uglyNumber[pMultiply3], 
+                                    5 * uglyNumber[pMultiply5]);
+            uglyNumber[nextUglyIndex] = nextUgly;
+
+            if (nextUgly == 2 * uglyNumber[pMultiply2])
+                ++pMultiply2;
+            if (nextUgly == 3 * uglyNumber[pMultiply3])
+                ++pMultiply3;
+            if (nextUgly == 5 * uglyNumber[pMultiply5])
+                ++pMultiply5;
+
+            ++nextUglyIndex;
+        }
+
+        return uglyNumber[nextUglyIndex - 1];
+    }
+
+    int MinOf3(int a, int b, int c)
+    {
+        a = min(a, b);
+        c = min(a, c);
+        return c;
+    }
+};
