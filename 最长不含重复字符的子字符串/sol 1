@@ -1,26 +1,27 @@
-class Solution {
+class Solution
+{
 public:
-    int lengthOfLongestSubstring(string s) {
-        if (s.empty())
-            return 0;
-        vector<int> position(26, -1);
-        int currLength = 0;
-        int maxLength = 0;
-        for (int i = 0; i != s.size(); ++i)
+    int lengthOfLongestSubstring(string s)
+    {
+        //s[start,end) 前面包含 后面不包含
+        int start(0), end(0), length(0), result(0);
+        int sSize = int(s.size());
+        vector<int> vec(128, -1);
+        while (end < sSize)
         {
-            if (position[s[i] - 'a'] < 0 || i - position[s[i] - 'a'] > currLength)
+            char tmpChar = s[end];
+            //仅当s[start,end) 中存在s[end]时更新start
+            if (vec[int(tmpChar)] >= start)
             {
-                ++currLength;
-                if (maxLength < currLength)
-                    maxLength = currLength;
+                start = vec[int(tmpChar)] + 1;
+                length = end - start;
             }
-            else
-            {
-                currLength = i - position[s[i] - 'a'];
-            }
-            position[s[i] - 'a'] = i;
-        }
+            vec[int(tmpChar)] = end;
 
-        return maxLength;
+            end++;
+            length++;
+            result = max(result, length);
+        }
+        return result;
     }
 };
