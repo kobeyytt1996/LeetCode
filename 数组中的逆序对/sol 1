@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int reversePairs(vector<int>& nums) {
+        if (nums.empty())
+            return 0;
+        vector<int> copy(nums.cbegin(), nums.cend());
+        int result = reversePairsCore(nums, copy, 0, nums.size() - 1);
+        return result;
+    }
+
+    int reversePairsCore(vector<int>& nums, vector<int>& copy, int start, int end)
+    {
+        if (start == end)
+        {
+            copy[start] = nums[start];
+            return 0;
+        }
+
+        int middle = start + ((end - start) >> 1);
+        int left = reversePairsCore(copy, nums, start, middle);
+        int right = reversePairsCore(copy, nums, middle + 1, end);
+
+        int count = 0;
+        int i = middle;
+        int j = end;
+        int copyIndex = end;
+        while (i >= start && j >= middle + 1)
+        {
+            if (nums[i] > nums[j])
+            {
+                copy[copyIndex--] = nums[i--];
+                count += j - middle;
+            }
+            else
+            {
+                copy[copyIndex--] = nums[j--];
+            }
+        }
+        for (; i >= start; --i)
+            copy[copyIndex--] = nums[i];
+        for (; j >= middle + 1; --j)
+            copy[copyIndex--] = nums[j];
+        
+        return left + right + count;
+    }
+};
