@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if (s.empty())
+            return 0;
+        unordered_map<char, int> position;
+        int currLength = 0;
+        int maxLength = 0;
+        for (int i = 0; i != s.size(); ++i)
+        {
+            if (position.find(s[i]) == position.cend() || i - position[s[i]] > currLength)
+            {
+                ++currLength;
+                if (maxLength < currLength)
+                    maxLength = currLength;
+            }
+            else
+            {
+                currLength = i - position[s[i]];
+            }
+            position[s[i]] = i;
+        }
+
+        return maxLength;
+    }
+};
