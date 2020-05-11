@@ -1,0 +1,26 @@
+class Solution {
+public:
+    char firstUniqChar(string s) {
+        vector<int> positionHash(128, -1);
+        for (int i = 0; i < s.size(); ++i)
+        {
+            int index = s[i];
+            if (positionHash[index] == -1)
+                positionHash[index] = i;
+            else if (positionHash[index] >= 0)
+                positionHash[index] = -2;
+        }
+        int pPosition = s.size();
+        char result = ' ';
+        for (int i = 0; i < 128; ++i)
+        {
+            if (positionHash[i] >= 0 && positionHash[i] < pPosition)
+            {
+                pPosition = positionHash[i];
+                result = (char)i;
+            }
+        }
+
+        return result;
+    }
+};
