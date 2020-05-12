@@ -1,0 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int kthLargest(TreeNode* root, int k) {
+        if (root == nullptr || k <= 0)
+            return -1;
+        TreeNode* target = kthLargestCore(root, k);
+        if (target != nullptr)
+            return target->val;
+        else
+            return -1;
+
+    }
+
+    TreeNode* kthLargestCore(TreeNode* root, int& k)
+    {
+        TreeNode* target = nullptr;
+        if (root->right != nullptr)
+            target = kthLargestCore(root->right, k);
+        if (target == nullptr)
+        {
+            if (--k == 0)
+            {
+                target = root;
+                return target;
+            }
+        }
+        if (target == nullptr && root->left != nullptr)
+            target = kthLargestCore(root->left, k);
+        return target;
+    }
+    
+    
+};
