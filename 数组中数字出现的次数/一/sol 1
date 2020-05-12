@@ -7,13 +7,15 @@ public:
         for (auto num : nums)
             resultExclusiveOr ^= num;
 
-        unsigned int indexOf1 = FindFirstBit1(resultExclusiveOr);
+        unsigned int indexOf1 = 1;
+        while ((resultExclusiveOr & indexOf1) == 0)
+            indexOf1 <<= 1;
 
         int num1 = 0;
         int num2 = 0;
         for (auto num : nums)
         {
-            if (IsBit1(num, indexOf1))
+            if (num & indexOf1)
                 num1 ^= num;
             else
                 num2 ^= num;
@@ -22,20 +24,4 @@ public:
         return vector<int>{num1, num2};
     }
 
-    unsigned int FindFirstBit1(int num)
-    {
-        unsigned int indexOf1 = 0;
-        while ((num & 0x1) == 0 && indexOf1 < 8 * sizeof(int))
-        {
-            num >>= 1;
-            ++indexOf1;
-        }
-        return indexOf1;
-    }
-
-    bool IsBit1(int num, unsigned int indexOf1)
-    {
-        num >>= indexOf1;
-        return (num & 0x1);
-    }
 };
