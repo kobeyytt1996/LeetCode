@@ -3,15 +3,16 @@ public:
     int search(vector<int>& nums, int target) {
         if (nums.empty())
             return 0;
-        int lastSmall = searchFirstLarge(nums, target - 1);
-        int firstLarge = searchFirstLarge(nums, target);
-        return firstLarge - lastSmall;
+        int end = nums.size() - 1;
+        int firstTarget = searchFirstLarge(nums, target - 1, 0, end);
+        if (firstTarget == nums.size())
+            return 0;
+        int firstLarge = searchFirstLarge(nums, target, firstTarget, end);
+        return firstLarge - firstTarget;
     }
 
-    int searchFirstLarge(vector<int>& nums, int target)
+    int searchFirstLarge(vector<int>& nums, int target, int start, int end)
     {
-        int start = 0;
-        int end = nums.size() - 1;
         while (start != end)
         {
             int middle = start + ((end - start) >> 1);
