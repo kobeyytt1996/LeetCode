@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        if (nums.empty())
+            return 0;
+        int lastSmall = searchLastSmall(nums, target);
+        int firstLarge = searchFirstLarge(nums, target);
+        return firstLarge - lastSmall - 1;
+    }
+
+    int searchLastSmall(vector<int>& nums, int target)
+    {
+        int start = 0;
+        int end = nums.size() - 1;
+        while (start != end)
+        {
+            int middle = start + ((end - start) >> 1) + 1;
+            if (nums[middle] >= target)
+                end = middle - 1;
+            else
+                start = middle;
+        }
+
+        if (nums[start] >= target)
+            return -1;
+        else 
+            return start;
+    }
+
+    int searchFirstLarge(vector<int>& nums, int target)
+    {
+        int start = 0;
+        int end = nums.size() - 1;
+        while (start != end)
+        {
+            int middle = start + ((end - start) >> 1);
+            if (nums[middle] <= target)
+                start = middle + 1;
+            else
+                end = middle;
+        }
+
+        if (nums[start] <= target)
+            return nums.size();
+        else 
+            return start;
+    }
+};
