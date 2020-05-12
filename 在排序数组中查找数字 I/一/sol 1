@@ -3,7 +3,7 @@ public:
     int search(vector<int>& nums, int target) {
         if (nums.empty())
             return 0;
-        int end = nums.size() - 1;
+        int end = nums.size();
         int firstTarget = searchFirstLarge(nums, target - 1, 0, end);
         if (firstTarget == nums.size())
             return 0;
@@ -22,9 +22,6 @@ public:
                 end = middle;
         }
 
-        if (nums[start] <= target)
-            return nums.size();
-        else 
-            return start;
+        return start;
     }
 };
