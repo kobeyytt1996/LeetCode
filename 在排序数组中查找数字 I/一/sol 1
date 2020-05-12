@@ -5,8 +5,6 @@ public:
             return 0;
         int end = nums.size();
         int firstTarget = searchFirstLarge(nums, target - 1, 0, end);
-        if (firstTarget == nums.size())
-            return 0;
         int firstLarge = searchFirstLarge(nums, target, firstTarget, end);
         return firstLarge - firstTarget;
     }
