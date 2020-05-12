@@ -15,7 +15,7 @@ public:
         bool balanced = false;
         if (abs(maxDepth(root->left) - maxDepth(root->right)) <= 1)
             balanced = true;
-        return isBalanced(root->left) && isBalanced(root->right) && balanced;
+        return balanced && isBalanced(root->left) && isBalanced(root->right);
     }
 
     int maxDepth(TreeNode* root)
