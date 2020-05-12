@@ -10,8 +10,6 @@
 class Solution {
 public:
     bool isBalanced(TreeNode* root) {
-        if (root == nullptr)
-            return true;
         bool balanced = false;
         isBalancedCore(root, balanced);
         return balanced;
