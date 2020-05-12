@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+using std::vector;
+using std::cout;
+using std::endl;
+
+class Solution {
+public:
+	bool g_InvalidInput = false;
+	bool g_NotExist = false;
+	int NumberEqualToSubscript(vector<int>& nums)
+	{
+		if (nums.empty())
+		{
+			g_InvalidInput = true;
+			return 0;
+		}
+		g_InvalidInput = false;
+		g_NotExist = false;
+
+		int left = 0;
+		int right = nums.size() - 1;
+		int middle;
+		while (left <= right)
+		{
+			middle = (left + right) >> 1;
+			if (nums[middle] == middle)
+				return middle;
+			else if (nums[middle] > middle)
+				right = middle - 1;
+			else
+				left = middle + 1;
+		}
+		g_NotExist = true;
+		return 0;
+	}
+};
+
+int main()
+{
+	Solution s;
+	vector<int> a = { -3, -1, 1, 2, 5 };
+	cout << s.NumberEqualToSubscript(a) << endl;
+	cout << s.g_NotExist << endl;
+
+	return 0;
+}
