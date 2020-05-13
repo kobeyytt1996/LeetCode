@@ -1,0 +1,14 @@
+class Solution {
+public:
+    string reverseLeftWords(string s, int n) {
+        string ans;
+        int cnt = 0;
+        if(n >= s.size()) return s;
+        for(int i = n; cnt < s.size(); i ++){
+            ans += s[i % s.size()];
+            cnt ++;
+        }
+        return ans;
+    }
+};
+
