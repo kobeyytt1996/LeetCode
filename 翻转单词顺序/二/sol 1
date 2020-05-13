@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string reverseLeftWords(string s, int n) {
+        if (s.empty() || n <= 0 || n >= s.size())
+            return s;
+        Reverse(s.begin(), s.end());
+        Reverse(s.begin(), s.end() - n);
+        Reverse(s.end() - n, s.end());
+        return s;
+    }
+
+    void Reverse(string::iterator start, string::iterator end)
+    {
+        if (end == start)
+            return;
+        --end;
+        while (start < end)
+        {
+            char temp = *start;
+            *start = *end;
+            *end = temp;
+            ++start;
+            --end;
+        }
+        return;
+    }
+};
