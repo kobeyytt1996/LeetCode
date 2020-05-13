@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        if (nums.size() < 2)
+            return vector<int>();
+        int halfTarget = target / 2;
+        if (halfTarget < nums[0] || halfTarget > nums[nums.size() - 1])
+            return vector<int>();
+        int left = 0;
+        int right = nums.size() - 1;
+
+        while (right > left)
+        {
+            long curSum = nums[left] + nums[right];
+            if (curSum == target)
+                return vector<int>{nums[left], nums[right]};
+            if (curSum > target)
+                --right;
+            else
+                ++left;
+        }
+
+        return vector<int>();
+    }
+};
