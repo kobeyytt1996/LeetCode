@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        if (nums.size() < 2)
+            return vector<int>();
+        int halfTarget = target / 2;
+        if (halfTarget < nums[0] || halfTarget > nums[nums.size() - 1])
+            return vector<int>();
+        int index = 0;
+        unordered_set<int> firstHalf;
+        while (nums[index] <= halfTarget)
+            firstHalf.insert(nums[index++]);
+
+        int difference = 0;
+        while (index < nums.size())
+        {
+            difference = target - nums[index];
+            if (firstHalf.count(difference) == 1)
+            {
+                return vector<int>{nums[index], difference};
+            }
+            ++index;
+        }
+
+        return vector<int>();
+    }
+};
