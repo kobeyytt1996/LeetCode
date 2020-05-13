@@ -6,25 +6,22 @@ public:
         deque<decltype(nums.size())> index;
         vector<int> result;
 
-        for (unsigned int i = 0; i < k; ++i)
+        for (unsigned int i = 0; i < k - 1; ++i)
         {
             while (!index.empty() && nums[i] >= nums[index.back()])
                 index.pop_back();
             index.push_back(i);
         }
 
-        for (unsigned int i = k; i < nums.size(); ++i)
+        for (unsigned int i = k - 1; i < nums.size(); ++i)
         {
-            result.push_back(nums[index.front()]);
+            while (!index.empty() && i - index.front() >= k)
+                index.pop_front();
             while (!index.empty() && nums[i] >= nums[index.back()])
                 index.pop_back();
-            while (!index.empty() && index.front() <= (int)(i - k))
-                index.pop_front();
-            
             index.push_back(i);
-            
+            result.push_back(nums[index.front()]);
         }
-        result.push_back(nums[index.front()]);
         return result;
     }
 };
