@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>> findContinuousSequence(int target) {
+        vector<vector<int>> result;
+        if (target <= 2)
+            return result;
+        int small = 1;
+        int big = 2;
+        int curSum = small + big;
+        while (small < big)
+        {
+            vector<int> sequence;
+            if (curSum == target)
+            {
+                for (int i = small; i <= big; ++i)
+                    sequence.push_back(i);
+                result.push_back(sequence);
+                curSum -= small;
+                ++small;
+            }
+            else if (curSum > target)
+            {   
+                curSum -= small;
+                ++small;
+            }
+            else
+            {
+                ++big;
+                curSum += big;
+            }
+        }
+
+        return result;
+    }
+};
