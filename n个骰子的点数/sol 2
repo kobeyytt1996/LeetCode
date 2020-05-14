@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<double> twoSum(int n) {
+        if (n <= 0)
+            return vector<double>();
+        vector<double> numbers(n * g_maxValue + 1);
+        numbers[0] = 1;
+        for (int i = 1; i <= n; ++i)
+        {
+            for (int j = i * g_maxValue; j >= i; --j)
+            {
+                numbers[j] = 0;
+                for (int k = j - 1; k >= i - 1 && k >= j - 6; --k)
+                    numbers[j] += numbers[k];
+            }
+        }
+
+        int total = pow(g_maxValue, n);
+        for (int j = numbers.size() - 1; j >= n; --j)
+            numbers[j] /= (double)total;
+        return vector<double>(numbers.begin() + n, numbers.end());
+    }
+private:
+    int g_maxValue = 6;
+};
