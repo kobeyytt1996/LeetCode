@@ -10,8 +10,8 @@ public:
             for (int j = i * g_maxValue; j >= i; --j)
             {
                 numbers[j] = 0;
-                for (int k = j - 1; k >= i - 1 && k >= j - 6; --k)
-                    numbers[j] += numbers[k];
+                for (int k = 1; k <= g_maxValue && j - k >= i - 1; ++k)
+                    numbers[j] += numbers[j - k];
             }
         }
 
