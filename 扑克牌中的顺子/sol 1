@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool isStraight(vector<int>& nums) {
+        if (nums.size() != pokerNum)
+            return false;
+        vector<int> sortSeq;
+        for (int i = 0; i < pokerNum; ++i)
+        {
+            if (nums[i] != 0)
+            {
+                sortSeq.push_back(nums[i]);
+                for (int j = sortSeq.size() - 1; j > 0; --j)
+                {
+                    if (sortSeq[j] == sortSeq[j - 1])
+                        return false;
+                    if (sortSeq[j] > sortSeq[j - 1])
+                        break;
+                    else
+                        std::swap(sortSeq[j], sortSeq[j - 1]);
+                }
+            }
+        }
+
+        if (sortSeq[sortSeq.size() - 1] - sortSeq[0] <= pokerNum - 1)
+            return true;
+        else 
+            return false;
+    }
+private:
+    int pokerNum = 5;
+};
