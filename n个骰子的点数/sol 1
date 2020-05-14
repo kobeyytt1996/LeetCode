@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<double> twoSum(int n) {
+        if (n == 0)
+            return vector<double>();
+        vector<vector<unsigned int>> recordNums(2, vector<unsigned int>(g_maxValue * n + 1));
+        int flag = 0;
+        for (int i = 1; i <= g_maxValue; ++i)
+            recordNums[flag][i] = 1;
+        for (int k = 2; k <= n; ++k)
+        {
+            flag = 1 - flag;
+            for (int i = 0; i < k; ++i)
+                recordNums[flag][i] = 0;
+            for (int i = k; i <= k * g_maxValue; ++i)
+            {
+                recordNums[flag][i] = 0;
+                for (int j = 1; j <= g_maxValue && j < i; ++j)
+                    recordNums[flag][i] +=recordNums[1- flag][i - j];
+            }
+        }
+        int totalNum = pow(g_maxValue, n);
+        int size = n * g_maxValue - n + 1;
+        vector<double> result(size);
+        for (int i = 0; i < size; ++i)
+            result[i] = recordNums[flag][i + n] / (double)totalNum;
+        return result;
+    }
+private:
+    int g_maxValue = 6;
+};
