@@ -31,21 +31,16 @@ public:
 
     int strToIntCore(const string& str, int index, bool isMinus){
         long long num = 0;
-        while (index < str.size())
+        while (index < str.size() && isdigit(str[index]))
         {
-            if (str[index] >= '0' && str[index] <= '9')
+            int sign = isMinus ? -1 : 1;
+            num = num * 10 + sign * (str[index] - '0');
+            if (num > INT_MAX || num < INT_MIN)
             {
-                int sign = isMinus ? -1 : 1;
-                num = num * 10 + sign * (str[index] - '0');
-                if (num > INT_MAX || num < INT_MIN)
-                {
-                    num = sign > 0 ? INT_MAX : INT_MIN;
-                    break;
-                }
-                ++index;
-            }
-            else
+                num = sign > 0 ? INT_MAX : INT_MIN;
                 break;
+            }
+            ++index;
         }
         while (str[index] == ' ')
             ++index;
