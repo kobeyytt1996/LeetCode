@@ -1,0 +1,61 @@
+class Solution {
+public:
+    enum Status{kValid = 0, kInvalid};
+    int g_nStatus = kValid;
+
+    int strToInt(string str) {
+        g_nStatus = kInvalid;
+        int num = 0;
+
+        if (str.empty())
+            return num;
+        int index = 0;
+        while (str[index] == ' ')
+            ++index;
+        if (index < str.size())
+        {
+            bool isMinus = false;
+            if (str[index] == '+')
+                ++index;
+            else if (str[index] == '-')
+            {
+                ++index;
+                isMinus = true;
+            }
+            if (index < str.size() && str[index] >= '0' && str[index] <= '9')
+                num = strToIntCore(str, index, isMinus);
+        }
+
+        return num;
+    }
+
+    int strToIntCore(const string& str, int index, bool isMinus){
+        long long num = 0;
+        while (index < str.size())
+        {
+            if (str[index] >= '0' && str[index] <= '9')
+            {
+                int sign = isMinus ? -1 : 1;
+                num = num * 10 + sign * (str[index] - '0');
+                if (num > INT_MAX)
+                {
+                    num = INT_MAX;
+                    break;
+                }
+                if (num < INT_MIN)
+                {
+                    num = INT_MIN;
+                    break;
+                }
+                ++index;
+            }
+            else
+                break;
+        }
+        while (str[index] == ' ')
+            ++index;
+        if (index == str.size())
+            g_nStatus = kValid;
+        return num;
+    }
+};
