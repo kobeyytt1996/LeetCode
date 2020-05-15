@@ -37,14 +37,9 @@ public:
             {
                 int sign = isMinus ? -1 : 1;
                 num = num * 10 + sign * (str[index] - '0');
-                if (num > INT_MAX)
+                if (num > INT_MAX || num < INT_MIN)
                 {
-                    num = INT_MAX;
-                    break;
-                }
-                if (num < INT_MIN)
-                {
-                    num = INT_MIN;
+                    num = sign > 0 ? INT_MAX : INT_MIN;
                     break;
                 }
                 ++index;
