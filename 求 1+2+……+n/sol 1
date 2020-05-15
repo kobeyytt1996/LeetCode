@@ -1,0 +1,18 @@
+class Solution {
+public:
+    Solution(){++N; Sum += N;}
+    int sumNums(int n) {
+        Reset();
+        unique_ptr<Solution[]> u_ptr(new Solution[n]);
+
+        return GetSum();
+    }
+    static void Reset() {N = 0; Sum = 0;}
+    static int GetSum() {return Sum;}
+private:
+    static unsigned int N;
+    static unsigned int Sum;
+};
+
+unsigned int Solution::N = 0;
+unsigned int Solution::Sum = 0;
