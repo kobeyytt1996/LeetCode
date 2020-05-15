@@ -1,0 +1,12 @@
+class Solution {
+public:
+    typedef int func(int);
+    static int sum_Terminator(int n)
+    {
+        return 0;
+    }
+    static int sumNums(int n) {
+        static function<func> f[2] = {sum_Terminator, sumNums};
+        return f[(bool)n](n - 1) + n;
+    }
+};
