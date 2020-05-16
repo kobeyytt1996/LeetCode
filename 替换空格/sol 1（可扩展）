@@ -1,0 +1,34 @@
+class Solution {
+public:
+    string replaceSpace(string s) {
+        if (s.empty())
+            return s;
+        int index = 0;
+        int numberOfBlank = 0;
+        while (index < s.size())
+        {
+            if (s[index++] == pattern)
+                ++numberOfBlank;
+        }
+
+        s.append(2 * numberOfBlank, '\0');
+        --index;
+        int newIndex = index + 2 * numberOfBlank;
+        while (newIndex > index)
+        {
+            if (s[index] == pattern)
+            {
+                newIndex -= 2;
+                s.replace(newIndex, 3, newStr);
+                --newIndex;
+            }
+            else
+                s[newIndex--] = s[index];
+            --index;
+        }
+        return s;
+    }
+private:
+    char pattern = ' ';
+    string newStr = "%20";
+};
