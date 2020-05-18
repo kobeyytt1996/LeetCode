@@ -9,21 +9,38 @@
  */
 class Solution {
 public:
+    typedef vector<int>::const_iterator vec_iter;
+
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        if (preorder.size() != inorder.size())
-            throw std::exception("Invalid Input: different length.");
-        return recurseBuild(preorder.begin(), preorder.end(), inorder.begin(), inorder.end());
+        if (preorder.empty() || inorder.empty())
+            return nullptr;
+        return buildTreeCore(preorder.cbegin(), preorder.cend() - 1, 
+                                inorder.cbegin(), inorder.cend() - 1);
     }
 
-    TreeNode* recurseBuild(vector<int>::iterator pbegin, vector<int>::iterator pend, vector<int>::iterator ibegin, vector<int>::iterator iend){
-        if (pbegin == pend)
+    TreeNode* buildTreeCore(vec_iter preOrderStart, vec_iter preOrderEnd, 
+                                vec_iter inOrderStart, vec_iter inOrderEnd){
+        TreeNode* pNode = new TreeNode(*preOrderStart);
+        if (preOrderStart == preOrderEnd)
+        {
+            if (inOrderStart == inOrderEnd && *preOrderStart == *inOrderStart)
+                return pNode;
+            else
+                return nullptr;
+        }
+
+        vec_iter nodePosition = ::find(inOrderStart, inOrderEnd + 1, pNode->val);
+        if (nodePosition > inOrderEnd)
             return nullptr;
-        auto posi = find(ibegin, iend, *pbegin);
-        if (posi == iend)
-            throw std::exception("Invalid Input: different value.");
-        TreeNode* root = new TreeNode(*pbegin);
-        root->left = recurseBuild(pbegin + 1, pbegin + 1 + (posi - ibegin), ibegin, posi);
-        root->right = recurseBuild(pbegin + 1 + (posi - ibegin), pend, posi + 1, iend);
-        return root;
+        
+        int leftLength = nodePosition - inOrderStart;
+        if (nodePosition > inOrderStart)
+            pNode->left = buildTreeCore(preOrderStart + 1, 
+                                        preOrderStart + leftLength, 
+                                        inOrderStart, nodePosition - 1);
+        if (nodePosition < inOrderEnd)
+            pNode->right = buildTreeCore(preOrderStart + leftLength + 1,
+                                         preOrderEnd, nodePosition + 1, inOrderEnd);
+        return pNode;
     }
 };
