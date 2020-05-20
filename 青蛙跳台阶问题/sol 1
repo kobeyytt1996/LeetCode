@@ -11,7 +11,7 @@ public:
         int oneMinusCurr = 1, twoMinusCurr = 1;
         for (unsigned int i = 2; i <= n; ++i)
         {
-            curr = (oneMinusCurr + twoMinusCurr) % 1000000007;
+            curr = (oneMinusCurr + twoMinusCurr) % ((int)1e9 + 7);
             twoMinusCurr = oneMinusCurr;
             oneMinusCurr = curr;
         }
