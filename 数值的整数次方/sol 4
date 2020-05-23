@@ -1,0 +1,40 @@
+class Solution {
+public:
+    enum Status {kInvalid = 0, kValid = 1};
+    int g_Status = kInvalid;
+    double myPow(double x, int n) {
+        if (x == 0.0 && n < 0)
+        {
+            g_Status = kInvalid;
+            return 0.0;
+        }
+
+        g_Status = kValid;
+        if (n == 0)
+            return 1.0;
+        
+        long long absExp = n;
+        if (n < 0)
+        {
+            absExp = -absExp;
+            x = 1.0 / x;
+        }
+
+        return powWithUnsignedExp(x, absExp);
+    }
+
+    double powWithUnsignedExp(double x, long long absExp)
+    {
+        double result = 1.0;
+        while (true)
+        {
+            if (absExp & 0x1)
+                result *= x;
+            absExp >>= 1;
+            if (absExp == 0)
+                break;
+            x *= x;
+        }
+        return result;
+    }
+};
