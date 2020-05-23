@@ -15,12 +15,12 @@ public:
         
         long long absExp = n;
         if (n < 0)
-        {
             absExp = -absExp;
-            x = 1.0 / x;
-        }
 
-        return powWithUnsignedExp(x, absExp);
+        double result = powWithUnsignedExp(x, absExp);
+        if (n < 0)
+            result = 1.0 / result;
+        return result;
     }
 
     double powWithUnsignedExp(double x, long long absExp)
