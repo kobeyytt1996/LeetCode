@@ -39,7 +39,7 @@ public:
         int firstNotZero = 0;
         while (number[firstNotZero] == '0')
             ++firstNotZero;
-        return number.substr(firstNotZero, number.size() - firstNotZero);
+        return number.substr(firstNotZero);
     }
 };
 
