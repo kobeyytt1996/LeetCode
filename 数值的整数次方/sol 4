@@ -3,7 +3,7 @@ public:
     enum Status {kInvalid = 0, kValid = 1};
     int g_Status = kInvalid;
     double myPow(double x, int n) {
-        if (x == 0.0 && n < 0)
+        if (abs(x - 0.0) < 1e-6 && n < 0)
         {
             g_Status = kInvalid;
             return 0.0;
