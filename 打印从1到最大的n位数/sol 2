@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+
+class Solution {
+public:
+    vector<string> printNumbers(int n) {
+        vector<string> result;
+        if (n < 1)
+            return result;
+        string number(n, '0');
+        for (int i = 0; i < 10; ++i)
+        {
+            number[0] = '0' + i;
+            printNumberRecursive(number, 1, result);
+        }
+        return result;
+    }
+
+    void printNumberRecursive(string& number, int index, vector<string>& result)
+    {
+        if (index == number.size())
+        {
+            result.push_back(cutFrontZero(number));
+            return;
+        }
+        for (int i = 0; i < 10; ++i)
+        {
+            number[index] = '0' + i;
+            printNumberRecursive(number, index + 1, result);
+        }
+        return;
+    }
+
+    string cutFrontZero(const string& number)
+    {
+        int firstNotZero = 0;
+        while (number[firstNotZero] == '0')
+            ++firstNotZero;
+        return number.substr(firstNotZero, number.size() - firstNotZero);
+    }
+};
+
+int main()
+{
+    Solution s;
+    vector<string> vec = s.printNumbers(4);
+    for (const auto& a : vec)
+        cout << a << ends;
+    cout << endl;
+    return 0;
+}
