@@ -1,41 +1,46 @@
 class Solution {
 public:
-	bool isNumber(string s) {
-		if (s.empty())
-			return false;
-		int index = 0;
-		int length = s.size();
+    bool isNumber(string s) {
+        int length = s.size();
+        int index = 0;
+        bool result = false;
 
-        while (s[index] == ' ')
+        while (index < length && s[index] == ' ')
             ++index;
-		bool isNum = scanInteger(s, index);
-		if (index != length && s[index] == '.')
-		{
-			++index;
-			isNum = scanUnsignedInteger(s, index) || isNum;
-		}
-		if (index != length && (s[index] == 'e' || s[index] == 'E'))
-		{
-			++index;
-			isNum = isNum && scanInteger(s, index);
-		}
-        while (index != length && s[index] == ' ')
+        
+        bool isNum = hasSignedInteger(s, index);
+        if (index < length && s[index] == '.')
+        {
             ++index;
-		return isNum && (index == length);
-	}
+            isNum = hasUnsignedInteger(s, index) || isNum;
+        }
 
-	bool scanUnsignedInteger(const string &s, int &index)
-	{
-		int original = index;
-		while (index != s.size() && s[index] >= '0' && s[index] <= '9')
-			++index;
-		return (index > original);
-	}
+        if (isNum && index < length && (s[index] == 'e' || s[index] == 'E'))
+        {
+            ++index;
+            isNum = isNum && hasSignedInteger(s, index);
+        }
 
-	bool scanInteger(const string &s, int &index)
-	{
-		if (s[index] == '+' || s[index] == '-')
-			++index;
-		return scanUnsignedInteger(s, index);
-	}
+        while (index < length && s[index] == ' ')
+            ++index;
+        
+        if (isNum && index == length)
+            result = true;
+        return result;
+    }
+
+    bool hasUnsignedInteger(string& s, int& index)
+    {
+        int origin = index;
+        while (index < s.size() && (s[index] >= '0' && s[index] <= '9'))
+            ++index;
+        return index > origin;
+    }
+
+    bool hasSignedInteger(string& s, int& index)
+    {
+        if (index < s.size() && (s[index] == '+' || s[index] == '-'))
+            ++index;
+        return hasUnsignedInteger(s, index);
+    }
 };
