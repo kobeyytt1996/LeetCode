@@ -11,12 +11,26 @@ class Solution {
 public:
     TreeNode* mirrorTree(TreeNode* root) {
         if (root == nullptr)
-            return nullptr;
-        TreeNode *temp = root->left;
-        root->left = root->right;
-        root->right = temp;
-        mirrorTree(root->left);
-        mirrorTree(root->right);
-        return root;
+            return root;
+
+        TreeNode* newRoot = new TreeNode(root->val);
+        mirrorTreeRecur(root, newRoot);
+
+        return newRoot;
+    }
+
+    void mirrorTreeRecur(TreeNode* root, TreeNode* newRoot){
+        if (root->left)
+        {
+            newRoot->right = new TreeNode(root->left->val);
+            mirrorTreeRecur(root->left, newRoot->right);
+        }
+        if (root->right)
+        {
+            newRoot->left = new TreeNode(root->right->val);
+            mirrorTreeRecur(root->right, newRoot->left);
+        }
+
+        return;
     }
 };
