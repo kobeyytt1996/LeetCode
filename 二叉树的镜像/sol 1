@@ -14,23 +14,12 @@ public:
             return root;
 
         TreeNode* newRoot = new TreeNode(root->val);
-        mirrorTreeRecur(root, newRoot);
+        if (root->left)
+            newRoot->right = mirrorTree(root->left);
+        if (root->right)
+            newRoot->left = mirrorTree(root->right);
 
         return newRoot;
     }
-
-    void mirrorTreeRecur(TreeNode* root, TreeNode* newRoot){
-        if (root->left)
-        {
-            newRoot->right = new TreeNode(root->left->val);
-            mirrorTreeRecur(root->left, newRoot->right);
-        }
-        if (root->right)
-        {
-            newRoot->left = new TreeNode(root->right->val);
-            mirrorTreeRecur(root->right, newRoot->left);
-        }
-
-        return;
-    }
+    
 };
