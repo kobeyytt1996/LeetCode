@@ -1,38 +1,33 @@
 class Solution {
 public:
     bool verifyPostorder(vector<int>& postorder) {
-        if (postorder.empty())
+        if (postorder.size() == 0 || postorder.size() == 1)
             return true;
-        int rankOfRoot = postorder.size() - 1;
-        return IsPostorderRecursive(postorder, 0, rankOfRoot);
+        return verifyPostorderCore(postorder, 0, postorder.size() - 1);
     }
 
-    bool IsPostorderRecursive(vector<int>& postorder, int start, int rankOfRoot)
+    bool verifyPostorderCore(vector<int>& postorder, int start, int end)
     {
-        if (start == rankOfRoot || start == rankOfRoot - 1)
-            return true;
-        
-        int root = postorder[rankOfRoot];
-        int i = start;
-        for (; i != rankOfRoot; ++i)
+        int slow = start - 1;
+        int fast = start;
+
+        while (fast < end)
         {
-            if (postorder[i] > root)
-                break;
+            if (postorder[fast] < postorder[end])
+            {
+                slow++;
+                if (slow < fast)
+                    return false;
+            }
+            fast++;
         }
 
-        int j = i + 1;
-        for (; j < rankOfRoot; ++j)
-        {
-            if (postorder[j] < root)
-                return false;
-        }
+        bool isPost = true;
+        if (slow > start)
+            isPost = verifyPostorderCore(postorder, start, slow);
+        if (isPost && slow + 1 < end - 1)
+            isPost = verifyPostorderCore(postorder, slow + 1, end - 1);
 
-        bool left = true;
-        if (i - 2 > start)
-            left = IsPostorderRecursive(postorder, start, i - 1);
-        bool right = true;
-        if (rankOfRoot - 2 > i)
-            right = IsPostorderRecursive(postorder, i, rankOfRoot - 1);
-        return (left && right);
+        return isPost;
     }
 };
