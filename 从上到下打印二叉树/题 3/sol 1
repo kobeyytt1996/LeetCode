@@ -11,34 +11,34 @@ class Solution {
 public:
     vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>> result;
-        if (root == nullptr)    
+        if (root == nullptr)
             return result;
-        
+
         queue<TreeNode*> bfs;
-        bfs.push(root);
-        int levelIndex = -1;
-        int leftToRight = 1;
+        TreeNode* pNode = root;
+        bfs.push(pNode);
+        int isReverse = 0;
 
         while (!bfs.empty())
         {
-            auto sizeOfLevel = bfs.size();
-            result.push_back(vector<int>(sizeOfLevel, 0));
-            ++levelIndex;
-
-            for (int i = 0; i < sizeOfLevel; ++i)
+            int levelSize = bfs.size();
+            vector<int> level(levelSize);
+            for (int i = 0; i < levelSize; ++i)
             {
-                TreeNode* frontNode = bfs.front();
+                pNode = bfs.front();
                 bfs.pop();
-                if (leftToRight)
-                    result[levelIndex][i] = frontNode->val;
-                else 
-                    result[levelIndex][sizeOfLevel - i - 1] = frontNode->val;
-                if (frontNode->left != nullptr)
-                    bfs.push(frontNode->left);
-                if (frontNode->right != nullptr)
-                    bfs.push(frontNode->right); 
+                if (pNode->left)
+                    bfs.push(pNode->left);
+                if (pNode->right)
+                    bfs.push(pNode->right);
+                if (isReverse == 0)
+                    level[i] = pNode->val;
+                else
+                    level[levelSize - i - 1] = pNode->val;
             }
-            leftToRight = (leftToRight + 1) & 0x1;  
+            isReverse = 1- isReverse;
+
+            result.push_back(level);
         }
 
         return result;
