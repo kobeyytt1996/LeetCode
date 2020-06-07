@@ -28,16 +28,13 @@ public:
         {
             if (currentSum == sum)
                 result.push_back(path);
-            path.pop_back();
-            return;
         }
 
         if (root->left != nullptr)
             FindPath(root->left, sum, path, currentSum, result);
         if (root->right != nullptr)
             FindPath(root->right, sum, path, currentSum, result);
+            
         path.pop_back();
-        
-        return;
     }
 };
