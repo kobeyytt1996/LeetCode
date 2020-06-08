@@ -1,0 +1,42 @@
+class Solution {
+public:
+    Node* treeToDoublyList(Node* root) {
+        if (!root)  return root;
+        Node *cur = root, *pre = root, *dummy = new Node(-1), *last = dummy;
+        /* Morris中序遍历将所有bst节点按照中序遍历的顺序前后连接起来 */
+        while (cur) {
+            if (!cur->left) {
+                // last和cur是bst的中序顺序中相邻的两个节点，将他们连接起来
+                last->right = cur;
+                cur->left = last;
+
+                last = last->right;
+                cur = cur->right;
+            }
+            else {
+                pre = cur->left;
+                while (pre->right && pre->right != cur) pre = pre->right;
+                if (!pre->right) {
+                    pre->right = cur;
+                    cur = cur->left;
+                }
+                else {
+                    // last和cur是bst的中序顺序中相邻的两个节点，将他们连接起来
+                    last->right = cur;
+                    cur->left = last;
+
+                    last = last->right;
+                    cur = cur->right;
+                }
+            }
+        }
+
+        /* 接下来只需要将链表的首端和尾端连接起来 */
+        while (pre->right)  pre = pre->right;   // 令pre指向链表尾端
+        cur = dummy->right;                     // 令cur指向链表首端
+        pre->right = cur;
+        cur->left = pre;
+        return dummy->right;
+    }
+};
+
