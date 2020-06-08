@@ -25,37 +25,39 @@ class Solution {
 public:
     Node* treeToDoublyList(Node* root) {
         if (root == nullptr)
-            return nullptr;
-        stack<Node*> sData;
-        while (root != nullptr)
+            return root;
+        
+        stack<Node*> inOrder;
+        while (root)
         {
-            sData.push(root);
+            inOrder.push(root);
             root = root->left;
         }
-        Node* listHead = sData.top();
-        Node* listTail = nullptr;
+        Node* listHead = inOrder.top();
 
-        while (!sData.empty())
+        Node* pPreNode = new Node(0);
+        while (!inOrder.empty())
         {
-            Node* pNode = sData.top();
-            listTail = pNode;
-            sData.pop();
-            Node* newNode = pNode->right;
-            while (newNode != nullptr)
+            Node* pNode = inOrder.top();
+            inOrder.pop();
+            if (pNode->right)
             {
-                sData.push(newNode);
-                newNode = newNode->left;
+                Node* pChild = pNode->right;
+                while (pChild)
+                {
+                    inOrder.push(pChild);
+                    pChild = pChild->left;
+                }
             }
-            if (!sData.empty())
-            {
-                Node* pNodeNext = sData.top();
-                pNode->right = pNodeNext;
-                pNodeNext->left = pNode;
-            }
+            pPreNode->right = pNode;
+            pNode->left = pPreNode;
+            pPreNode = pNode;
         }
 
-        listHead->left = listTail;
-        listTail->right = listHead;
+        pPreNode->right = listHead;
+        delete listHead->left;
+        listHead->left = pPreNode;
+
         return listHead;
     }
 };
