@@ -1,0 +1,48 @@
+class Solution {
+public:
+    vector<string> permutation(string s) {
+        vector<string> result;
+        if (s.empty())
+            return result;
+        permutationCore(s, 0, result);
+        return result;
+    }
+
+    void permutationCore(string& s, int index, vector<string>& result) {
+        if (index == s.size() - 1)
+        { 
+            result.push_back(s);
+        }
+        else {
+            unordered_set<char> usedChar;
+            for (int i = index; i < s.size(); ++i)
+            {
+                if (usedChar.find(s[i]) == usedChar.end()) {
+                    
+                    Swap(s, index, i);
+                    usedChar.insert(s[index]);
+                    permutationCore(s, index + 1, result);
+                    Swap(s, index, i);
+                    
+                }
+            }
+        }
+    }
+
+    void Swap(string& s, int index, int i) {
+        char temp = s[i];
+        s[i] = s[index];
+        s[index] = temp;
+    }   
+};
+
+
+
+int main()
+{
+    Solution s;
+    string str = "abbb";
+    vector<string> abc = s.permutation(str);
+    for (string s : abc)
+        cout << s << endl;
+}
