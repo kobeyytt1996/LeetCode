@@ -1,0 +1,38 @@
+package Good.Day4;
+
+import java.util.PriorityQueue;
+
+class MedianFinder {
+    private PriorityQueue<Integer> smallHalf;
+    private PriorityQueue<Integer> largeHalf;
+    /** initialize your data structure here. */
+    public MedianFinder() {
+        smallHalf = new PriorityQueue<>((i1, i2) -> i2 - i1);
+        largeHalf = new PriorityQueue<>((i1, i2) -> i1 - i2);
+    }
+
+    public void addNum(int num) {
+        if (smallHalf.size() == largeHalf.size()){
+            if (smallHalf.size() == 0 || num <= largeHalf.peek()){
+                smallHalf.offer(num);
+            } else {
+                largeHalf.offer(num);
+                smallHalf.offer(largeHalf.poll());
+            }
+        } else {
+            if (num >= smallHalf.peek()){
+                largeHalf.offer(num);
+            } else {
+                smallHalf.offer(num);
+                largeHalf.offer(smallHalf.poll());
+            }
+        }
+    }
+
+    public double findMedian() {
+        if (smallHalf.size() == 0)
+            throw new RuntimeException("不存在中位数");
+        return smallHalf.size() == largeHalf.size() ? (smallHalf.peek() + largeHalf.peek()) / 2.0 : smallHalf.peek();
+    }
+}
+
