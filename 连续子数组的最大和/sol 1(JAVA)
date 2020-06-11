@@ -1,0 +1,23 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        Objects.requireNonNull(nums);
+        if (nums.length == 0)
+            throw new RuntimeException("空数组");
+        
+        long maxSubSum = nums[0];
+        long max = maxSubSum;
+
+        for (int i = 1; i < nums.length; ++i){
+            if (maxSubSum < 0){
+                maxSubSum = nums[i];
+            } else{
+                maxSubSum += nums[i];
+            }
+
+            if (max < maxSubSum){
+                max = maxSubSum;
+            }
+        }
+
+        return (int)max;
+    }
