@@ -1,0 +1,33 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if (s == null)
+            throw new NullPointerException("字符串指针为空");
+        if (s.length() == 0)
+            return 0;
+
+        int[] recordPos = new int[128];
+        for (int i = 0; i < 128; ++i){
+            recordPos[i] = -1;
+        }
+        int longest = 0;
+        int before = 0;
+        for (int i = 0; i < s.length(); ++i){
+            int index = s.charAt(i);
+            int curr = 0;
+            int diff = i - recordPos[index];
+            if (diff > before){
+                curr = before + 1;
+            } else {
+                curr = diff;
+            }
+
+            recordPos[index] = i;
+            if (longest < curr){
+                longest = curr;
+            }
+            before = curr;
+        }
+
+        return longest;
+    }
+}
