@@ -1,0 +1,30 @@
+class Solution {
+    public char firstUniqChar(String s) {
+        if (s == null){
+            throw new NullPointerException("字符串指针不能为空");
+        }
+
+        int[] myHash = new int[26];
+        for (int i = 0; i < s.length(); ++i){
+            int index = s.charAt(i) - 'a';
+            if (myHash[index] == 0){
+                myHash[index] = i + 1;
+            } else {
+                myHash[index] = -1;
+            }
+        }
+
+        int smallestIndex = 0;
+        char result = ' ';
+        for (int i = 0; i < 26; ++i){
+            if (myHash[i] > 0){
+                if (smallestIndex == 0 || smallestIndex > myHash[i]){
+                    smallestIndex = myHash[i];
+                    result = (char)('a' + i);
+                }
+            }
+        }
+
+        return result;
+    }
+}
