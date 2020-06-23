@@ -1,0 +1,31 @@
+class Solution {
+    public int search(int[] nums, int target) {
+        if (nums == null) {
+            throw new NullPointerException("数组指针为空");
+        }
+        if (nums.length == 0) {
+            return 0;
+        }
+
+        int start = BinarySearch(nums, target);
+        int end = BinarySearch(nums, target + 1);
+
+        return end - start;
+    }
+
+    public int BinarySearch(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length;
+
+        while (left < right - 1) {
+            int middle = left + ((right - left) >> 1);
+            if (nums[middle] >= target) {
+                right = middle;
+            } else {
+                left = middle;
+            }
+        }
+
+        return (nums[left] < target) ? left : -1;
+    }
+}
