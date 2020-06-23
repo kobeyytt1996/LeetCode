@@ -1,0 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int kthLargest(TreeNode root, int k) {
+        if (root == null) {
+            throw new NullPointerException("树节点指针为空");
+        }
+        if (k < 1) {
+            throw new RuntimeException("k不能小于1");
+        }
+
+        ArrayDeque<TreeNode> dfs = new ArrayDeque<>();
+        while (root != null) {
+            dfs.push(root);
+            root = root.right;
+        }
+
+        while (!dfs.isEmpty()) {
+            TreeNode pNode = dfs.pop();
+            --k;
+            if (k == 0) {
+                return pNode.val;
+            }
+            pNode = pNode.left;
+            while (pNode != null) {
+                dfs.push(pNode);
+                pNode = pNode.right;
+            }
+        }
+
+        throw new RuntimeException("k不能大于树节点数量");
+        
+    }
+}
