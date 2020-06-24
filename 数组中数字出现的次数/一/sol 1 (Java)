@@ -1,0 +1,27 @@
+class Solution {
+    public int[] singleNumbers(int[] nums) {
+        if (nums == null) {
+            throw new NullPointerException("数组指针为空");
+        }
+
+        if (nums.length < 2) {
+            throw new RuntimeException("数组长度不符合要求");
+        }
+
+        int num = nums[0];
+        for (int i = 1; i < nums.length; ++i) {
+            num ^= nums[i];
+        }
+        int sign = num & (-num);
+        int[] result = new int[2];
+
+        for (int i = 0; i < nums.length; ++i) {
+            if ((nums[i] & sign) == 0) {
+                result[0] ^= nums[i];
+            } else {
+                result[1] ^= nums[i];
+            }
+        }
+        return result;
+    }
+}
