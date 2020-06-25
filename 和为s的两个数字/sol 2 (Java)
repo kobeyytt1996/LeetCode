@@ -1,0 +1,29 @@
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        if (nums == null) {
+            throw new NullPointerException("数组指针为空");
+        }
+
+        if (nums.length < 2) {
+            throw new RuntimeException("数组长度不够");
+        }
+
+        int start = 0;
+        int end = nums.length - 1;
+        int[] result = new int[2];
+        while (start < end) {
+            long sum = nums[start] + nums[end];
+            if (sum == target) {
+                result[0] = nums[start];
+                result[1] = nums[end];
+                return result;
+            } else if (sum > target) {
+                --end;
+            } else {
+                ++start;
+            }
+        }
+
+        return null;
+    }
+}
