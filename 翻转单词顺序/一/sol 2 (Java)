@@ -1,0 +1,26 @@
+class Solution {
+    public String reverseWords(String s) {
+        if (s == null) {
+            throw new NullPointerException("字符串指针不可为空");
+        }
+
+        s = s.trim();
+        StringBuilder res = new StringBuilder();
+
+        int wordLeft = s.length() - 1;
+        int wordRight = wordLeft;
+
+        while (wordLeft >= 0) {
+            while (wordLeft >= 0 && s.charAt(wordLeft) != ' ') {
+                wordLeft--;
+            }
+            res.append(s.substring(wordLeft + 1, wordRight + 1)).append(" ");
+            while (wordLeft >= 0 && s.charAt(wordLeft) == ' ') {
+                wordLeft--;
+            } 
+            wordRight = wordLeft;
+        }
+
+        return res.toString().trim();
+    }
+}
