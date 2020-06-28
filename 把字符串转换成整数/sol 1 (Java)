@@ -1,0 +1,51 @@
+class Solution {
+    public int strToInt(String str) {
+        if (str == null) {
+            throw new NullPointerException("字符串指针为空");
+        }
+
+        str = str.trim();
+        if (str.length() == 0) {
+            return 0;
+        }
+
+        int result = 0;
+        if (str.charAt(0) >= '0' && str.charAt(0) <= '9') {
+            result = getInt(str, 0, false);
+        }
+        if (str.charAt(0) == '+' || str.charAt(0) == '-') {
+            if (str.length() > 1 && str.charAt(1) >= '0' && str.charAt(1) <= '9') {
+                boolean isNegative = (str.charAt(0) == '-');
+                result = getInt(str, 1, isNegative);
+            }
+        }
+
+        return result;
+    }
+
+    public int getInt(String str, int index, boolean isNegative) {
+        long temp = 0;
+        temp = str.charAt(index) - '0';
+        if (isNegative) {
+            temp = -temp;
+        }
+
+        for (int i = index + 1; i < str.length(); ++i) {
+            if (str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+                temp *= 10;
+                if (isNegative) {
+                    temp -= str.charAt(i) - '0';
+                } else {
+                    temp += str.charAt(i) - '0';
+                }
+                if (temp > Integer.MAX_VALUE || temp < Integer.MIN_VALUE) {
+                    return (temp > 0) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+                }
+            } else {
+                break;
+            }
+        }
+
+        return (int) temp;
+    }
+}
