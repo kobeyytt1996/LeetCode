@@ -1,0 +1,23 @@
+class Solution {
+    public int[] constructArr(int[] a) {
+        if (a == null) {
+            throw new NullPointerException("不合法");
+        }
+        if (a.length < 2) {
+            throw new RuntimeException("数组长度不足");
+        }
+
+        int[] result = new int[a.length];
+        result[0] = 1;
+        for (int i = 1; i < a.length; ++i) {
+            result[i] = result[i - 1] * a[i - 1];
+        }
+
+        int temp = 1;
+        for (int i = a.length - 2; i >= 0; --i) {
+            temp *= a[i + 1];
+            result[i] *= temp;
+        }
+        return result;
+    }
+}
