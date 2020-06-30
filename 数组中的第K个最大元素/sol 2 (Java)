@@ -1,0 +1,45 @@
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        if (nums == null || k < 1 || k > nums.length) {
+            throw new RuntimeException("无效输入");
+        }
+
+        buildHeap(nums, k);
+        for (int i = k; i < nums.length; ++i) {
+            if (nums[i] > nums[0]) {
+                swap(nums, i, 0);
+                heapify(nums, 0, k);
+            }
+        }
+        return nums[0];
+    }
+
+    private void heapify(int[] nums, int parentNode, int heapSize) {
+        int leftChild = 2 * parentNode + 1;
+        int rightChild = 2 * parentNode + 2;
+        int smallest = parentNode;
+        if (leftChild < heapSize && nums[leftChild] < nums[parentNode]) {
+            smallest = leftChild;
+        }
+        if (rightChild < heapSize && nums[rightChild] < nums[smallest]) {
+            smallest = rightChild;
+        }
+
+        if (smallest != parentNode) {
+            swap(nums, smallest, parentNode);
+            heapify(nums, smallest, heapSize);
+        }
+    }
+
+    private void buildHeap(int[] nums, int heapSize) {
+        for (int i = (heapSize >> 1) - 1; i >= 0; --i) {
+            heapify(nums, i, heapSize);
+        }
+    }
+
+    private void swap(int[] nums, int left, int right) {
+        int temp = nums[left];
+        nums[left] = nums[right];
+        nums[right] = temp;
+    }
+}
