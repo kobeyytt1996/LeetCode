@@ -1,0 +1,25 @@
+class Solution {
+    public int findLength(int[] A, int[] B) {
+        if (A == null && B == null) {
+            throw new NullPointerException("数组指针为空");
+        }
+
+        int[] dp = new int[A.length];
+        int maxLength = 0;
+        for (int i = 0; i < B.length; ++i) {
+            for (int j = A.length - 1; j >= 0; --j) {
+                if (A[j] == B[i]) {
+                    dp[j] = 1;
+                    if (j > 0) {
+                        dp[j] += dp[j - 1];
+                    }
+                    maxLength = Math.max(maxLength, dp[j]);
+                } else {
+                    dp[j] = 0;
+                }
+            }
+        }
+
+        return maxLength;
+    }
+}
