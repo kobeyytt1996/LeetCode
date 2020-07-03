@@ -1,0 +1,53 @@
+class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        if (s == null) {
+            throw new NullPointerException("字符串空指针");
+        }
+
+        List<String> record = new ArrayList<>();
+        List<String> result = new ArrayList<>();
+        int nthInt = 1;
+        getIpRecursive(s, 0, nthInt, record, result);
+        return result;
+    }
+
+    private void getIpRecursive(String s, int index, int nthInt, List<String> record, List<String> result) {
+        if (index >= s.length()) {
+            return;
+        }
+        if (nthInt == 4) {
+            String last = s.substring(index, s.length());
+            if ((last.length() > 1 && last.charAt(0) == '0') || last.length() > 3) {
+                return;
+            }
+            int num = Integer.parseInt(last);
+            if (num >= 0 && num <= 255) {
+                StringBuilder sb = new StringBuilder();
+                for (String str : record) {
+                    sb.append(str).append(".");
+                }
+                sb.append(last);
+                result.add(sb.toString());
+            }
+        }
+        record.add(s.substring(index, index + 1));
+        getIpRecursive(s, index + 1, nthInt + 1, record, result);
+        record.remove(record.size() - 1);
+        if (s.charAt(index) == '0') {
+            return;
+        }
+        if (index + 1 < s.length()) {
+            record.add(s.substring(index, index + 2));
+            getIpRecursive(s, index + 2, nthInt + 1, record, result);
+            record.remove(record.size() - 1);
+        }
+        if (index + 2 < s.length()) {
+            int num = Integer.parseInt(s.substring(index, index + 3));
+            if (num <= 255) {
+                record.add(num + "");
+                getIpRecursive(s, index + 3, nthInt + 1, record, result);
+                record.remove(record.size() - 1);
+            }
+        }
+    }
+}
