@@ -1,0 +1,33 @@
+class Solution {
+    public String[] permutation(String s) {
+        if (s == null) {
+            return null;
+        }
+        List<String> NoRepeat = new ArrayList<>();
+        permutationRecur(s.toCharArray(), 0, NoRepeat);
+        return NoRepeat.toArray(new String[NoRepeat.size()]);
+    }
+    
+    private void permutationRecur(char[] ch, int index, List<String> NoRepeat) {
+        if (index >= ch.length - 1) {
+            NoRepeat.add(new String(ch));
+            return;
+        }
+        
+        Set<Character> charSet = new HashSet<>();
+        for (int i = index;i < ch.length; ++i) {
+            if (!charSet.contains(ch[i])) {
+                charSet.add(ch[i]);
+                swap(ch, index, i);
+                permutationRecur(ch, index + 1, NoRepeat);
+                swap(ch, index, i);
+            }
+        }
+    }
+    
+    private void swap(char[] ch, int i, int j) {
+        char temp = ch[i];
+        ch[i] = ch[j];
+        ch[j] = temp;
+    }
+}
