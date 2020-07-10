@@ -1,0 +1,64 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s == "") {
+            return "";
+        }
+        
+        String s1 = newString(s, "&");
+        int maxLen = 0;
+        int[] p = new int[s1.length()];
+        int maxRight = 0;
+        int center = 0;
+        int index = 0;
+        
+        for (int i = 1; i < s1.length(); ++i) {
+            if (i >= maxRight) {
+                int left = i - 1;
+                int right = i + 1;
+                while (left >= 0 && right < s1.length() && s1.charAt(left) == s1.charAt(right)) {
+                    left--;
+                    right++;
+                    p[i]++;
+                }
+                maxRight = i + p[i];
+                center = i;
+            } else {
+                int mirror = center * 2 - i;
+                if (maxRight - i == p[mirror]) {
+                    p[i] = p[mirror];
+                    int left = 2 * i - maxRight - 1;
+                    int right = maxRight + 1;
+                    while (left >= 0 && right < s1.length() && s1.charAt(left) == s1.charAt(right)) {
+                        left--;
+                        right++;
+                        p[i]++;
+                    }
+                    maxRight = i + p[i];
+                    center = i;
+                } else {
+                    p[i] = Math.min(maxRight - i, p[mirror]);
+                }
+            }
+            maxLen = Math.max(maxLen, p[i]);
+            if (maxLen == p[i]) {
+                index = i;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = index - maxLen; i <= index + maxLen; ++i) {
+            if (s1.charAt(i) != '&') {
+                sb.append(s1.charAt(i));
+            }
+        }
+        return sb.toString();
+    }
+    
+    private String newString(String s, String iso) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); ++i) {
+            sb.append(iso).append(s.charAt(i));
+        }
+        sb.append(iso);
+        return sb.toString();
+    }
+}
