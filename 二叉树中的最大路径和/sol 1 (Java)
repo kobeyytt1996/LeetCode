@@ -1,0 +1,27 @@
+class Solution {
+    private int maxSum = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        if (root == null) {
+            throw new NullPointerException();
+        }
+        maxSum = root.val;
+        maxPathRecur(root);
+        return maxSum;
+    }
+    
+    private int maxPathRecur(TreeNode root) {
+        int leftMax = 0;
+        int rightMax = 0;
+        if (root.left != null) {
+            leftMax = Math.max(leftMax, maxPathRecur(root.left));
+        }
+        if (root.right != null) {
+            rightMax = Math.max(rightMax, maxPathRecur(root.right));
+        }
+        
+        int length = Math.max(leftMax, rightMax) + root.val;
+        int currSum = leftMax + rightMax + root.val;
+        maxSum = Math.max(currSum, maxSum);
+        return length;
+    }
+}
