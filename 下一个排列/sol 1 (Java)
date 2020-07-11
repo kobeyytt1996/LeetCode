@@ -1,0 +1,49 @@
+class Solution {
+    public void nextPermutation(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        
+        int index = -1;
+        int end = nums.length - 1;
+        for (int i = end - 1; i >= 0; --i) {
+            if (nums[i] < nums[i + 1]) {
+                index = i;
+                break;
+            }
+        }
+        if (index >= 0) {
+            reverse(nums, index + 1, end);
+            int newPos = binarySearch(nums, index + 1, end, nums[index]);
+            swap(nums, index, newPos);
+        } else {
+            reverse(nums, 0, end);
+        }
+        
+    }
+    
+    private void reverse(int[] nums, int left, int right) {
+        while (left <= right) {
+            swap(nums, left++, right--);
+        }
+    }
+    
+    private int binarySearch(int[] nums, int left, int right, int target) {
+        right += 1;
+        while (left < right) {
+            int mid = left + ((right - left - 1) >> 1);
+            if (nums[mid] > target) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+    
+    private void swap (int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
