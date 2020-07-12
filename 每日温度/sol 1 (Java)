@@ -1,0 +1,33 @@
+class Solution {
+    public int[] dailyTemperatures(int[] T) {
+        if (T == null || T.length == 0) {
+            return new int[0];
+        }
+        
+        ArrayDeque<Day> stack = new ArrayDeque<>();
+        int[] result = new int[T.length];
+        for (int i = 0; i < T.length; ++i) {
+            while (!stack.isEmpty() && T[i] > stack.getFirst().temp) {
+                Day old = stack.removeFirst();
+                result[old.pos] = i - old.pos;
+            }
+            Day newDay = new Day(T[i], i);
+            stack.addFirst(newDay);
+        }
+        
+        while (!stack.isEmpty()) {
+            Day old = stack.removeFirst();
+            result[old.pos] = 0;
+        }
+        return result;
+    }
+}
+
+class Day {
+    int temp;
+    int pos;
+    Day(int temp, int pos) {
+        this.temp = temp;
+        this.pos = pos;
+    }
+}
