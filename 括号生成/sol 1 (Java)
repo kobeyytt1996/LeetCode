@@ -1,0 +1,30 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        if (n <= 0) {
+            return new ArrayList<>();
+        }
+        int left = n;
+        int right = n;
+        List<String> result = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        generateRecur(left, right, sb, result);
+        
+        return result;
+    }
+    
+    private void generateRecur(int left, int right, StringBuilder sb, List<String> result) {
+        if (left == 0 && right == 0) {
+            result.add(sb.toString());
+        }
+        if (left > 0) {
+            sb.append('(');
+            generateRecur(left - 1, right, sb, result);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        if (right > 0 && right > left) {
+            sb.append(')');
+            generateRecur(left, right - 1, sb, result);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+}
