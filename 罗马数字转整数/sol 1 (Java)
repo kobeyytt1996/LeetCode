@@ -1,0 +1,34 @@
+class Solution {
+    public int romanToInt(String s) {
+        if (s == null || s == "") {
+            return 0;
+        }
+
+        int[] nums = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] roams = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        int index = 0;
+        int pos = 0;
+        int result = 0;
+        while (pos < s.length()){
+            while (judge(s, pos, roams, index)) {
+                result += nums[index];
+                pos += roams[index].length();
+            }
+            index++;
+        }
+
+        return result;
+    }
+
+    private boolean judge(String s, int pos, String[] roams, int index) {
+        String comp = roams[index];
+        for (int i = 0; i < comp.length(); ++i) {
+            if (pos >= s.length() || s.charAt(pos) != comp.charAt(i)) {
+                return false;
+            }
+            pos++;
+        }
+
+        return true;
+    }
+}
