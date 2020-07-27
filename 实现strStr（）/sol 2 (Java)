@@ -1,0 +1,42 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+        if (haystack == null || needle == null || needle.length() == 0) {
+            return 0;
+        }
+
+        HashMap<Character, Integer> move = new HashMap<>();
+        for (int i = 0; i < needle.length(); ++i) {
+            int dist = needle.length() - i;
+            move.put(needle.charAt(i), dist);
+        }
+
+        int idx = 0;
+        while (idx < haystack.length()) {
+            if (match(haystack, idx, needle)) {
+                return idx;
+            } else {
+                int nextIdx = idx + needle.length();
+                if (nextIdx >= haystack.length()) {
+                    return -1;
+                }
+                if (move.get(haystack.charAt(nextIdx)) != null) {
+                    idx += move.get(haystack.charAt(nextIdx));
+                } else {
+                    idx = nextIdx + 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private boolean match(String a, int idx, String b) {
+        for (int i = 0; i < b.length(); ++i) {
+            if (idx >= a.length() || a.charAt(idx) != b.charAt(i)) {
+                return false;
+            }
+            ++idx;
+        }
+        return true;
+    }
+
+}
