@@ -1,0 +1,36 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+        if (haystack == null || needle == null || needle.length() == 0) {
+            return 0;
+        }
+
+        int[][] dp = KMP(needle);
+        int state = 0;
+
+        for (int i = 0; i < haystack.length(); ++i) {
+            state = dp[state][haystack.charAt(i)];
+            if (state == needle.length()) {
+                return i - needle.length() + 1;
+            }
+        }
+        return -1;
+    }
+
+    private int[][] KMP(String needle) {
+        int[][] dp = new int[needle.length() + 1][128];
+        dp[0][needle.charAt(0)] = 1;
+        int x = 0;
+
+        for (int i = 1; i < needle.length(); ++i) {
+            for (int j = 0; j < 128; ++j) {
+                if ((char)j == needle.charAt(i)) {
+                    dp[i][j] = i + 1;
+                } else {
+                    dp[i][j] = dp[x][j];
+                }
+            }
+            x = dp[x][needle.charAt(i)];
+        }
+        return dp;
+    }
+}
